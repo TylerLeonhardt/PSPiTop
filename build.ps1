@@ -10,7 +10,7 @@ dotnet publish $PSScriptRoot/src
 
 $outputDir = "$PSScriptRoot/out/PSPiTop" 
 Remove-Item $outputDir -Force -Recurse -ErrorAction SilentlyContinue
-New-Item $outputDir -Force
+New-Item $outputDir -Force -ItemType Directory
 
 # Copy bin
 Get-ChildItem "$PSScriptRoot/src/bin/$Configuration/netcoreapp3.1/publish" -File | Copy-Item -Destination $outputDir

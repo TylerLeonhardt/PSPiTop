@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>PSPiTop</AssemblyName>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,9 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="$(PkgpiTop_FoundationKit)\interactive-extensions\dotnet\**"
-             PackageCopyToOutput="true"
-             CopyToOutputDirectory="PreserveNewest" />
+    <ProjectReference Include="..\PSPiTop.Generator\PSPiTop.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

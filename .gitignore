@@ -365,3 +365,6 @@ MigrationBackup/
 *.dll
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,powershell
+
+# build artifacts
+out

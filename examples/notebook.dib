@@ -1,0 +1,45 @@
+#!markdown
+
+# Notebook example
+
+## Setup
+
+First let's import the module:
+
+#!powershell
+
+ipmo ~/PSPiTop/out/PSPiTop
+
+#!markdown
+
+Secondly, let's enable the .NET Interactive formatters so that the experience is nicer :)
+
+#!powershell
+
+Enable-PiTopDotnetInteractiveFormatters
+
+#!markdown
+
+## Example: Toggle an LED
+
+In this example please have the following setup:
+
+* An LED plugged in to `D5` digital port
+
+#!powershell
+
+$module = Get-PiTopModule
+
+#!powershell
+
+$plate = Get-PiTopPlate
+$plate | Out-Display
+
+#!powershell
+
+$device = Get-PiTopDevice -DigitalPort D5
+$device | Out-Display
+
+#!powershell
+
+$device.Toggle()

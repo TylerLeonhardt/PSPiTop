@@ -20,24 +20,43 @@ Enable-PiTopDotnetInteractiveFormatters
 
 #!markdown
 
+We add this `using namespace` so it will be easier to create objects:
+
+#!powershell
+
+using namespace PiTopMakerArchitecture.Foundation
+
+#!markdown
+
 ## Example: Toggle an LED
 
 In this example please have the following setup:
 
 * An LED plugged in to `D5` digital port
+* A Potentiometer plugged in to `D3`
+* A Light Sensor plugged in to `D1`
+
+First let's get our `module`:
 
 #!powershell
 
-$module = Get-PiTopModule
+Get-PiTopModule | Out-Display
+
+#!markdown
+
+Next, let's get our `plate`:
 
 #!powershell
 
-$plate = Get-PiTopPlate
-$plate | Out-Display
+Get-PiTopPlate | Out-Display
+
+#!markdown
+
+Lastly, let's get our `devices`:
 
 #!powershell
 
-$device = Get-PiTopDevice -DigitalPort D5
+$device = Get-PiTopDevice -DigitalPort D5 -DisplayProperties [NamedCssColor]::new('green')
 $device | Out-Display
 
 #!powershell

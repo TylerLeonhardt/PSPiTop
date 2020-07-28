@@ -16,6 +16,16 @@ namespace PSPiTop
 
         protected override void EndProcessing()
         {
+            if (PiTopModule == null)
+            {
+                ThrowTerminatingError(new ErrorRecord(
+                    new PSInvalidOperationException("PiTop Module not initialized. Run Get-PiTopModule first."),
+                    null,
+                    ErrorCategory.InvalidData,
+                    null));
+                return;
+            }
+
             if (PiTopModuleState.PiTopPlate == null || NewInstance.IsPresent)
             {
                 PiTopModuleState.PiTopPlate = PiTopModule.GetOrCreatePlate<FoundationPlate>();

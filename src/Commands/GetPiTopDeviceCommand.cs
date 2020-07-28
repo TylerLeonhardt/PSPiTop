@@ -9,13 +9,27 @@ namespace PSPiTop
     [OutputType(typeof(IConnectedDevice))]
     public class GetPiTopDeviceCommand : PSCmdlet
     {
-        [Parameter(Mandatory = true, Position = 1)]
+        [Parameter(
+            Mandatory = true,
+            Position = 0,
+            ParameterSetName = "DigitalPort",
+            ValueFromPipeline = true)]
         public DigitalPort DigitalPort {get; set;}
 
+        [Parameter(
+            Mandatory = true,
+            Position = 0,
+            ParameterSetName = "AnaloguePort",
+            ValueFromPipeline = true)]
+        public AnaloguePort AnaloguePort {get; set;}
+
         [Parameter(Position = 1)]
+        public DisplayPropertyBase[] DisplayProperties {get; set;}
+
+        [Parameter(Position = 2)]
         public FoundationPlate PiTopPlate {get; set;} = PiTopModuleState.PiTopPlate;
 
-        protected override void EndProcessing()
+        protected override void ProcessRecord()
         {
             if (PiTopModuleState.PiTopPlate == null)
             {
@@ -27,8 +41,21 @@ namespace PSPiTop
                 return;
             }
 
-            var device = PiTopPlate.GetOrCreateDevice<Led>(DigitalPort);
-            WriteObject(device);
+            IConnectedDevice device = null;
+            switch (ParameterSetName)
+            {
+                case "DigitalPort":
+                    device = PiTopPlate.GetOrCreateDevice<DigitalPortDeviceBase>(DigitalPort);
+                    break;
+                case "AnalogPort":
+                    device = PiTopPlate.GetOrCreateDevice<AnaloguePortDeviceBase>(AnaloguePort);
+                    break;
+            }
+
+            if(device != null)
+            {
+                WriteObject(device);
+            }
         }
     }
 }

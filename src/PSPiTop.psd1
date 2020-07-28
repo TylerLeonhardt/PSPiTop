@@ -76,6 +76,7 @@ CmdletsToExport = @(
     'Get-PiTopDevice'
     'Get-PiTopModule'
     'Get-PiTopPlate'
+    'Enable-PiTopDotnetInteractiveFormatters'
 )
 
 # Variables to export from this module

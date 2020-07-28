@@ -19,7 +19,6 @@ namespace PSPiTop.Generated
 {
     public enum DigitalDevices
     {
-        foo,
 ");
 
             // var digitalTypeNames =
@@ -38,12 +37,15 @@ namespace PSPiTop.Generated
             //     c.BaseList?.Contains(symbol.);
             // });
             // sourceBuilder.AppendLine(symbol.Name);
-           var a = context.Compilation.GlobalNamespace.GetTypeMembers().Where(t =>
-                t.BaseType != null && t.BaseType.Name == symbol.Name);
+           var a = context.Compilation.GlobalNamespace.GetTypeMembers().Where(n => n.CanBeReferencedByName);//.Where(t =>
+                //t.BaseType != null && t.BaseType.Name == symbol.Name);
 
-            var b = a.Select(x => x.Name);
+            var b = a.Select(x => x.Name).Distinct();// .Take(1);
+            foreach(var t in b)
+            {
+                sourceBuilder.AppendLine(t + ",\n");
+            }
 
-            sourceBuilder.AppendLine(string.Join(',', b));
             // var a = allClassDeclarations.Where(c => {
             //     if(c.BaseList == null)
             //     {

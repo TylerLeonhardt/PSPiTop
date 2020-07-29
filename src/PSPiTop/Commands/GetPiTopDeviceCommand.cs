@@ -1,4 +1,6 @@
+using System;
 using System.Management.Automation;
+using System.Reflection;
 using PiTop;
 using PiTopMakerArchitecture.Foundation;
 using PiTopMakerArchitecture.Foundation.Components;
@@ -10,6 +12,8 @@ namespace PSPiTop
     [OutputType(typeof(IConnectedDevice))]
     public class GetPiTopDeviceCommand : PSCmdlet
     {
+        private static readonly MethodInfo _getOrCreateDeviceInfo = typeof(FoundationPlate).GetMethod("GetOrCreateDevice");
+
         [Parameter(
             Mandatory = true,
             Position = 0,
@@ -67,10 +71,16 @@ namespace PSPiTop
             switch (ParameterSetName)
             {
                 case "DigitalPort":
-                    device = PiTopPlate.GetOrCreateDevice<DigitalPortDeviceBase>(DigitalPort);
+                    string digitalName = Enum.GetName(typeof(DigitalDevices), DigitalDevice);
+                    device = _getOrCreateDeviceInfo
+                        .MakeGenericMethod(typeof(DigitalPortDeviceBase).Assembly
+                        .GetType(digitalName)).Invoke(PiTopPlate, new object[] { DigitalPort }) as IConnectedDevice;
                     break;
                 case "AnalogPort":
-                    device = PiTopPlate.GetOrCreateDevice<AnaloguePortDeviceBase>(AnaloguePort);
+                    string analogueName = Enum.GetName(typeof(AnalogueDevices), AnalogueDevice);
+                    device = _getOrCreateDeviceInfo
+                        .MakeGenericMethod(typeof(AnaloguePortDeviceBase).Assembly
+                        .GetType(analogueName)).Invoke(PiTopPlate, new object[] { AnaloguePort }) as IConnectedDevice;
                     break;
             }
 

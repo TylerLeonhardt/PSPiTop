@@ -72,13 +72,13 @@ namespace PSPiTop
             {
                 case "DigitalPort":
                     string digitalName = Enum.GetName(typeof(DigitalDevices), DigitalDevice);
-                    device = _getOrCreateDeviceInfo
+                    device = typeof(FoundationPlate).GetMethod("GetOrCreateDevice", new [] { typeof (DigitalPort) })
                         .MakeGenericMethod(typeof(DigitalPortDeviceBase).Assembly
                         .GetType(digitalName)).Invoke(PiTopPlate, new object[] { DigitalPort }) as IConnectedDevice;
                     break;
                 case "AnalogPort":
                     string analogueName = Enum.GetName(typeof(AnalogueDevices), AnalogueDevice);
-                    device = _getOrCreateDeviceInfo
+                    device = typeof(FoundationPlate).GetMethod("GetOrCreateDevice", new [] { typeof (AnaloguePort) })
                         .MakeGenericMethod(typeof(AnaloguePortDeviceBase).Assembly
                         .GetType(analogueName)).Invoke(PiTopPlate, new object[] { AnaloguePort }) as IConnectedDevice;
                     break;

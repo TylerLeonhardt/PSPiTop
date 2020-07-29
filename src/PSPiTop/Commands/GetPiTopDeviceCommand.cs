@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using System.Reflection;
 using PiTop;
@@ -72,15 +74,21 @@ namespace PSPiTop
             {
                 case "DigitalPort":
                     string digitalName = Enum.GetName(typeof(DigitalDevices), DigitalDevice);
-                    device = typeof(FoundationPlate).GetMethod("GetOrCreateDevice", new [] { typeof (DigitalPort) })
-                        .MakeGenericMethod(typeof(DigitalPortDeviceBase).Assembly
-                        .GetType(digitalName)).Invoke(PiTopPlate, new object[] { DigitalPort }) as IConnectedDevice;
+                    device = typeof(FoundationPlate).GetMethod("GetOrCreateDevice", new[] { typeof(DigitalPort) })
+                        .MakeGenericMethod(
+                            Array.Find(
+                                typeof(DigitalPortDeviceBase).Assembly.GetTypes(),
+                                (t) => t.Name == digitalName))
+                        .Invoke(PiTopPlate, new object[] { DigitalPort }) as IConnectedDevice;
                     break;
                 case "AnalogPort":
                     string analogueName = Enum.GetName(typeof(AnalogueDevices), AnalogueDevice);
                     device = typeof(FoundationPlate).GetMethod("GetOrCreateDevice", new [] { typeof (AnaloguePort) })
-                        .MakeGenericMethod(typeof(AnaloguePortDeviceBase).Assembly
-                        .GetType(analogueName)).Invoke(PiTopPlate, new object[] { AnaloguePort }) as IConnectedDevice;
+                        .MakeGenericMethod(
+                            Array.Find(
+                                typeof(AnaloguePortDeviceBase).Assembly.GetTypes(),
+                                (t) => t.Name == analogueName))
+                        .Invoke(PiTopPlate, new object[] { AnaloguePort }) as IConnectedDevice;
                     break;
             }
 

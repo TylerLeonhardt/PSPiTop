@@ -26,10 +26,17 @@ namespace PSPiTop
 
         [Parameter(
             Mandatory = true,
-            Position = 0,
+            Position = 1,
             ParameterSetName = "DigitalPort",
             ValueFromPipeline = true)]
         public DigitalDevices DigitalDevice {get; set;}
+
+        [Parameter(
+            Mandatory = true,
+            Position = 1,
+            ParameterSetName = "AnaloguePort",
+            ValueFromPipeline = true)]
+        public AnalogueDevices AnalogueDevice {get; set;}
 
         // [Parameter(
         //     Mandatory = true,
@@ -38,10 +45,10 @@ namespace PSPiTop
         //     ValueFromPipeline = true)]
         // public AnalogDevices AnalogueDevices {get; set;}
 
-        [Parameter(Position = 1)]
+        [Parameter(Position = 2)]
         public DisplayPropertyBase[] DisplayProperties {get; set;}
 
-        [Parameter(Position = 2)]
+        [Parameter(Position = 3)]
         public FoundationPlate PiTopPlate {get; set;} = PiTopModuleState.PiTopPlate;
 
         protected override void ProcessRecord()
